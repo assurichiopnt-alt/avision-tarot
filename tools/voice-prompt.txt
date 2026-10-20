@@ -1,0 +1,10 @@
+พรอมต์อธิบายเสียงตัวละคร (ใช้กับเครื่องมือที่สร้างเสียงจากคำบรรยายได้ เช่น ElevenLabs Voice Design)
+
+ภาษาอังกฤษ (ใช้ได้กับเกือบทุกเครื่องมือ):
+A deep, low female voice of an ancient demon priestess. Slow, deliberate pacing with long pauses. Calm, velvety and hypnotic, with a faint whisper in the breath and a subtle dark resonance, as if speaking from inside a cathedral. Mysterious and ominous but never angry or shouting. Thai language, clear pronunciation, gentle falling intonation at the end of each sentence.
+
+ไทย:
+เสียงผู้หญิงทุ้มต่ำ ของนักบวชปีศาจโบราณ พูดช้า มีจังหวะเว้นวรรค นุ่มลึก สะกดจิต มีลมหายใจแผ่วเบา กังวานเหมือนอยู่ในโบสถ์ลึกลับ ลึกลับน่าเกรงขามแต่ไม่ตะโกนและไม่โกรธ ออกเสียงไทยชัด ท้ายประโยคเสียงลดลงเบาๆ
+
+ตั้งค่าที่แนะนำ: Stability สูง (ราว 60-75%) เพื่อให้เสียงคงที่ทุกประโยค, Speed ช้าลงเล็กน้อย (0.85-0.9)
+ตั้งชื่อไฟล์ตามคอลัมน์ id ใน voice-script.csv (เช่น r_00u0.mp3) แล้วใส่ในโฟลเดอร์ voice
