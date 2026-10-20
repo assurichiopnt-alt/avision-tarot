@@ -660,12 +660,14 @@ if (window.speechSynthesis) { loadVoices(); speechSynthesis.onvoiceschanged = lo
   var show = function () { var s = $(id + 'v'); if (s) s.textContent = $(id).value; };
   $(id).addEventListener('input', function () { lsSet('avl_' + id, $(id).value); show(); }); show();
 });
-$('spk').checked = lsGet('avl_spk', '0') === '1';
+$('spk').checked = lsGet('avl_spk', '1') === '1';
 $('spk').addEventListener('change', function () { lsSet('avl_spk', this.checked ? '1' : '0'); });
 $('voice').addEventListener('change', function () { var v = voices[+this.value]; if (v) lsSet('avl_voice', v.name); });
 var INTRO = ['วิญญาณแห่งไพ่ได้ตอบรับแล้ว จงฟังให้ดี', 'ม่านหมอกเปิดออกแล้ว ไพ่ได้เลือกเจ้าของมันแล้ว', 'เงามืดกระซิบบอกข้า ถึงสิ่งที่ซ่อนอยู่ในโชคชะตาของเจ้า'];
 var OUTRO = ['จงจำคำของไพ่ไว้ แล้วเลือกเส้นทางของเจ้าเอง', 'ไพ่ได้พูดแล้ว ที่เหลือคือการกระทำของเจ้า', 'หมอกจะปิดลงอีกครั้ง แต่แสงยังอยู่ในมือเจ้า'];
-var curAudio = null;
+var curAudio = null, vAud = new Audio();
+var SIL = 'data:audio/wav;base64,UklGRiQAAABXQVZFZm10IBAAAAABAAEAQB8AAEAfAAABAAgAZGF0YQAAAAA=';
+function unlockAudio() { try { vAud.src = SIL; var p = vAud.play(); if (p && p.catch) p.catch(function () {}); } catch (e) {} try { var C = window.AudioContext || window.webkitAudioContext; if (mctx && mctx.resume) mctx.resume(); } catch (e) {} }
 // Plays voice/<id>.mp3 in order. A missing file falls back to the system voice for that line.
 function playSegs(segs, rid, onAllDone) {
   var i = 0;
@@ -680,7 +682,7 @@ function playSegs(segs, rid, onAllDone) {
       if (!$('sysv').checked) { setTimeout(next, 300); return; }
       if (!speak(s.text, function () { if (rid === runId) setTimeout(next, 350); })) setTimeout(next, 0);
     }
-    var a = new Audio('voice/' + s.id + '.mp3'); curAudio = a; a.volume = +$('vol').value;
+    var a = vAud; a.onended = a.onerror = null; a.src = 'voice/' + s.id + '.mp3'; curAudio = a; a.volume = +$('vol').value;
     a.onended = function () { if (rid === runId) setTimeout(next, 450); };
     a.onerror = fallback;
     var pr = a.play(); if (pr && pr.catch) pr.catch(fallback);
@@ -813,6 +815,8 @@ $('fgo').addEventListener('click', function () {
   var n = $('fname').value.trim() || 'เพื่อน', a = parseInt($('fage').value, 10);
   if (!(a >= 10 && a <= 99)) { $('fage').focus(); return; }
   if (busy) return;
+  $('spk').checked = true; unlockAudio();
+  if (!$('mus').checked) { $('mus').checked = true; startMusic(); }
   enqueue(n, 'อายุ ' + a + ' เรื่อง' + $('ftopic').value, 3);
   closeMenu(); runNext();
 });
